@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import userRoute from "./routes/UserRoutes.js";
+import postRoute from "./routes/PostRoutes.js";
 
 const app = express();
 
@@ -14,16 +15,15 @@ dotenv.config();
 const PORT = process.env.PORT || 3001;
 
 // const DB = "mongodb://0.0.0.0:27017";
-const DB =
-  "mongodb+srv://prajwal:prajwal321@cluster0.dcgm2a5.mongodb.net/blog-mern?retryWrites=true&w=majority";
 
 const connectDB = async () => {
   await mongoose
-    .connect(DB)
+    .connect(process.env.MONGO_URL)
     .then(() => console.log("Connected"))
     .catch((err) => console.log(err));
 };
 connectDB();
 app.use("/user", userRoute);
+app.use("/post", postRoute);
 
 app.listen(PORT, () => console.log(`Server is running at ${PORT}`));
